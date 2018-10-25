@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+
+import { StyleSheet } from 'react-native';
 
 import {
   ViroARScene,
   ViroText,
   ViroConstants,
+  ViroBox,
+  ViroMaterials,
+  Viro3DObject,
+  ViroAmbientLight,
+  ViroSpotLight,
+  ViroARPlaneSelector,
+  ViroNode,
+  ViroAnimations,
 } from 'react-viro';
 
-class HelloWorldARScene extends Component {
+class HelloWorldSceneAR extends Component {
 
   constructor() {
     super();
@@ -16,20 +25,30 @@ class HelloWorldARScene extends Component {
     this.state = {
       text: "Initializing AR..."
     };
-
-    // bind 'this' to functions
-    this._onInitialized = this._onInitialized.bind(this);
   }
 
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
+        <ViroAmbientLight color={"#aaaaaa"} />
+        <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0, -1, -.2]}
+          position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
+        <ViroARPlaneSelector>
+          <Viro3DObject
+            source={{ uri: "https://s3.us-east-1.amazonaws.com/staging-menu3-s3/1540429085819-nachos.vrx" }}
+            resources={[
+              { uri: "https://s3.amazonaws.com/staging-menu3-s3/DiffuseMap_0.jpg" },
+              { uri: "https://s3.amazonaws.com/staging-menu3-s3/NormalMap_0.jpg" }
+            ]}
+            position={[0, 0, -1]}
+            scale={[.1, .1, .1]}
+            type="VRX" />
+        </ViroARPlaneSelector>
       </ViroARScene>
     );
   }
 
-  _onInitialized(state, reason) {
+  _onInitialized = (state, reason) => {
     if (state == ViroConstants.TRACKING_NORMAL) {
       this.setState({
         text: "Hello World!"
@@ -40,7 +59,7 @@ class HelloWorldARScene extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: 'Arial',
     fontSize: 30,
@@ -50,4 +69,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HelloWorldARScene;
+// ViroAnimations.registerAnimations({
+//   rotate: {
+//     properties: {
+//       rotateY: "+=90"
+//     },
+//     duration: 250, //.25 seconds
+//   },
+// });
+
+export default HelloWorldSceneAR;
