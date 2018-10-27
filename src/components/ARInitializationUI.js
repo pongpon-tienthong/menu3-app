@@ -65,7 +65,7 @@ class ARInitializationUI extends React.Component {
       return (
         <View pointerEvents={'none'} style={{ position: 'absolute', top: 50, left: 0, right: 0, width: '100%', height: 120, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
           <SuccessAnimation onPress={() => { }}
-            stateImageArray={[require("../2")]}
+            stateImageArray={[require("../res/icon_initializing_device_2.png")]}
             style={localStyles.arSceneInitializeSuccess} />
           <SuccessAnimation onPress={() => { }}
             onFinish={this._onSuccessAnimFinished}

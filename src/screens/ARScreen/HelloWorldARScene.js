@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { StyleSheet } from 'react-native';
 
+import { ARTrackingInitialized } from "../../reducers/uiReducer";
+
 import {
   ViroARScene,
   ViroText,
@@ -16,20 +18,17 @@ import {
   ViroAnimations,
 } from 'react-viro';
 
+import { connect } from 'react-redux';
+
 class HelloWorldSceneAR extends Component {
 
   constructor() {
     super();
-
-    // Set initial state here
-    this.state = {
-      text: "Initializing AR..."
-    };
   }
 
   render() {
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized} >
+      <ViroARScene onTrackingUpdated={this._onTrackingUpdated} >
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0, -1, -.2]}
           position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
@@ -48,14 +47,15 @@ class HelloWorldSceneAR extends Component {
     );
   }
 
-  _onInitialized = (state, reason) => {
+  // Callback fired when the app receives AR Tracking state changes from ViroARScene.
+  // If the tracking state is not NORMAL -> show the user AR Initialization animation 
+  // to guide them to move the device around to get better AR tracking.
+  _onTrackingUpdated = (state, reason) => {
+    var trackingNormal = false;
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text: "Hello World!"
-      });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
+      trackingNormal = true;
     }
+    this.props.dispatchARTrackingInitialized(trackingNormal);
   }
 }
 
@@ -78,4 +78,10 @@ var styles = StyleSheet.create({
 //   },
 // });
 
-export default HelloWorldSceneAR;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchARTrackingInitialized: (trackingNormal) => dispatch(ARTrackingInitialized(trackingNormal)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(HelloWorldSceneAR);

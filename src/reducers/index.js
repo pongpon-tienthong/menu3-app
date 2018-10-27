@@ -4,9 +4,11 @@ import routes from './routes';
 
 import restaurantReducer from "./restaurantReducer";
 import menuReducer from "./menuReducer";
+import uiReducer from "./uiReducer";
 
 export default combineReducers({
   routes,
   restaurant: restaurantReducer,
-  menu: menuReducer
+  menu: menuReducer,
+  ui: uiReducer
 });
