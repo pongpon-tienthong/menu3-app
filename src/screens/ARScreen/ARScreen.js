@@ -1,13 +1,80 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { StyleSheet, View, StatusBar } from "react-native";
-
-import ARInitializationUI from "../../components/ARInitializationUI";
 
 import { ViroARSceneNavigator } from 'react-viro';
 
+import * as UIConstants from "../../redux/UIConstants";
+import * as LoadingConstants from "../../redux/LoadingStateConstants";
+
+import * as ModelData from '../../model/ModelItems';
+import renderIf from "../../helpers/renderIf";
+
+import ARInitializationUI from "../../components/ARInitializationUI";
+import FigmentListView from "../../components/FigmentListView";
 import HelloWorldARScene from "./HelloWorldARScene";
 
 class ARScreen extends Component {
+
+  // Load data source for listview based on listview modes
+  _getListItems = () => {
+    if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
+      // return this._constructListArrayModel(ModelData.getModelArray(), this.props.modelItems);
+      return this._constructListArrayModel(ModelData.getModelArray(), null);
+    }
+    // else if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
+    //   return this._constructListArrayModel(PortalData.getPortalArray(), this.props.portalItems);
+    // } 
+    // else if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
+    //   return this.props.effectItems;
+    // }
+  }
+
+  // Helper to construct listview items
+  _constructListArrayModel = (sourceArray, items) => {
+    var listArrayModel = [];
+    for (var i = 0; i < sourceArray.length; i++) {
+      listArrayModel.push({ icon_img: sourceArray[i].icon_img, loading: this._getLoadingforModelIndex(i, items) })
+    }
+    return listArrayModel;
+  }
+
+  // Helper to determine which listview item to show the Loading spinner if an AR object or portal is being added to the scene
+  _getLoadingforModelIndex = (index, items) => {
+    if (items == null || items == undefined) {
+      return LoadingConstants.NONE;
+    }
+    var loadingConstant = LoadingConstants.NONE;
+
+    Object.keys(items).forEach(function (currentKey) {
+      if (items[currentKey] != null && items[currentKey] != undefined) {
+        if (items[currentKey].loading != LoadingConstants.NONE && items[currentKey].index == index) {
+          loadingConstant = items[currentKey].loading;
+        }
+      }
+    });
+
+    return loadingConstant;
+  }
+
+  _onListPressed(index) {
+
+    console.log('====================================');
+    console.log("Praise the Lord, It's pressed");
+    console.log('====================================');
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
+    //   this.props.dispatchAddModel(index);
+    // }
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
+    //   this.props.dispatchAddPortal(index);
+    // }
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
+    //   this.props.dispatchToggleEffectSelection(index);
+    // }
+  }
 
   render() {
     return (
@@ -20,6 +87,13 @@ class ARScreen extends Component {
 
         {/* AR Initialization animation shown to the user for moving device around to get AR Tracking working*/}
         <ARInitializationUI style={{ position: 'absolute', top: 20, left: 0, right: 0, width: '100%', height: 140, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }} />
+
+        {/* ListView at the bottom of the screen */}
+        {renderIf(this.props.currentScreen != UIConstants.SHOW_SHARE_SCREEN,
+          <View style={localStyles.listView}>
+            <FigmentListView items={this._getListItems()} onPress={this._onListPressed} />
+          </View>
+        )}
       </View>
     );
   }
@@ -167,4 +241,18 @@ var localStyles = StyleSheet.create({
   }
 });
 
-export default ARScreen;
+const selectProps = store => {
+  return {
+    // modelItems: store.arobjects.modelItems,
+    // portalItems: store.arobjects.portalItems,
+    // effectItems: store.arobjects.effectItems,
+    // currentScreen: store.ui.currentScreen,
+    listMode: store.ui.listMode,
+    // listTitle: store.ui.listTitle,
+    currentItemSelectionIndex: store.ui.currentItemSelectionIndex,
+    // currentItemClickState: store.ui.currentItemClickState,
+    // currentSelectedItemType: store.ui.currentSelectedItemType,
+  };
+}
+
+export default connect(selectProps, null)(ARScreen);
