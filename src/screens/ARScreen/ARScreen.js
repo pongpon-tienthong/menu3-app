@@ -10,6 +10,7 @@ import * as LoadingConstants from "../../redux/LoadingStateConstants";
 import * as ModelData from '../../model/ModelItems';
 import renderIf from "../../helpers/renderIf";
 
+import { addModelWithIndex } from "../../reducers/arObjectReducer";
 import ARInitializationUI from "../../components/ARInitializationUI";
 import FigmentListView from "../../components/FigmentListView";
 import HelloWorldARScene from "./HelloWorldARScene";
@@ -19,14 +20,27 @@ class ARScreen extends Component {
   // Load data source for listview based on listview modes
   _getListItems = () => {
     if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
-      // return this._constructListArrayModel(ModelData.getModelArray(), this.props.modelItems);
-      return this._constructListArrayModel(ModelData.getModelArray(), null);
+      return this._constructListArrayModel(ModelData.getModelArray(), this.props.modelItems);
     }
     // else if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
     //   return this._constructListArrayModel(PortalData.getPortalArray(), this.props.portalItems);
     // } 
     // else if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
     //   return this.props.effectItems;
+    // }
+  }
+
+  _onListPressed = (index) => {
+    if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
+      this.props.dispatchAddModel(index);
+    }
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
+    //   this.props.dispatchAddPortal(index);
+    // }
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
+    //   this.props.dispatchToggleEffectSelection(index);
     // }
   }
 
@@ -55,25 +69,6 @@ class ARScreen extends Component {
     });
 
     return loadingConstant;
-  }
-
-  _onListPressed(index) {
-
-    console.log('====================================');
-    console.log("Praise the Lord, It's pressed");
-    console.log('====================================');
-
-    // if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
-    //   this.props.dispatchAddModel(index);
-    // }
-
-    // if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
-    //   this.props.dispatchAddPortal(index);
-    // }
-
-    // if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
-    //   this.props.dispatchToggleEffectSelection(index);
-    // }
   }
 
   render() {
@@ -243,7 +238,7 @@ var localStyles = StyleSheet.create({
 
 const selectProps = store => {
   return {
-    // modelItems: store.arobjects.modelItems,
+    modelItems: store.arObject.modelItems,
     // portalItems: store.arobjects.portalItems,
     // effectItems: store.arobjects.effectItems,
     // currentScreen: store.ui.currentScreen,
@@ -255,4 +250,21 @@ const selectProps = store => {
   };
 }
 
-export default connect(selectProps, null)(ARScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // dispatchAddPortal: (index) => dispatch(addPortalWithIndex(index)),
+    // dispatchRemovePortalWithUUID: (uuid) => dispatch(removePortalWithUUID(uuid)),
+    dispatchAddModel: (index) => dispatch(addModelWithIndex(index)),
+    // dispatchRemoveModelWithUUID: (uuid) => dispatch(removeModelWithUUID(uuid)),
+    // dispatchRemoveAll:() => dispatch(removeAll()),
+    // dispatchToggleEffectSelection: (index) => dispatch(toggleEffectSelection(index)),
+    // dispatchChangeModelLoadState:(index, loadState) =>dispatch(changeModelLoadState(index, loadState)),
+    // dispatchChangePortalLoadState:(index, loadState) =>dispatch(changePortalLoadState(index, loadState)),
+    // dispatchDisplayUIScreen: (uiScreenState) => dispatch(displayUIScreen(uiScreenState)),
+    // dispatchSwitchListMode: (listMode, listTitle) =>dispatch(switchListMode(listMode, listTitle)),
+    // dispatchChangePortalPhoto:(index, source)=>dispatch(changePortalPhoto(index, source)),
+    // dispatchChangeItemClickState:(index, clickState, itemType) =>dispatch(changeItemClickState(index, clickState, itemType)),
+  }
+}
+
+export default connect(selectProps, mapDispatchToProps)(ARScreen);
