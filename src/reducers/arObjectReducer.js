@@ -27,46 +27,46 @@ const initialState = {
 
 // Creates a new model item with the given index from the data model in ModelItems.js
 function newModelItem(indexToCreate) {
-  return {uuid: uuidv1(), selected: false, loading: LoadingConstants.NONE, index: indexToCreate};
+  return { uuid: uuidv1(), selected: false, loading: LoadingConstants.NONE, index: indexToCreate };
 }
 
 // action to change state of individual ListView items between NONE, LOADING, ERROR, LOADED (path: js/redux/LoadingStateConstants.js)
 function changeLoadState(state = {}, action) {
- switch (action.type) {
-   case 'CHANGE_MODEL_LOAD_STATE':
-     return {
-       ...state,
-       loading: action.loadState,
-     };
-   default:
-     return state;
- }
+  switch (action.type) {
+    case 'CHANGE_MODEL_LOAD_STATE':
+      return {
+        ...state,
+        loading: action.loadState,
+      };
+    default:
+      return state;
+  }
 }
 
 // change the background of a given portal (identified by uuid) in the scene.
 function changePortalPhoto(state = {}, action) {
   switch (action.type) {
-      case 'CHANGE_PORTAL_PHOTO':
-        if(state[action.uuid] != null || state[action.uuid] != undefined) {
-          var model = state[action.uuid];
-          var newModel = {...model};
-          newModel.portal360Image = {...action.photoSource};
-          state[action.uuid] = newModel;
-        }
-        return state;
-      default:
-        return state;
+    case 'CHANGE_PORTAL_PHOTO':
+      if (state[action.uuid] != null || state[action.uuid] != undefined) {
+        var model = state[action.uuid];
+        var newModel = { ...model };
+        newModel.portal360Image = { ...action.photoSource };
+        state[action.uuid] = newModel;
+      }
+      return state;
+    default:
+      return state;
   }
 }
 
 // change effect selection in the Effects Listview (changes which effect has pink border around it)
 function modifyEffectSelection(state = [], action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'TOGGLE_EFFECT_SELECTED':
       var effectToggleArray = [];
       // for each effect in the listview, set selected = false for everything, except for the selected index (action.index)
-      for(var i =0; i<state.length; i++) {
-        if(i != action.index) {
+      for (var i = 0; i < state.length; i++) {
+        if (i != action.index) {
           state[i].selected = false;
         } else {
           if (!state[i].selected) {
@@ -79,9 +79,9 @@ function modifyEffectSelection(state = [], action) {
     case 'REMOVE_ALL':
       // reset selected = false for every effect
       var effectToggleArray = [];
-      for(var i =0; i<state.length; i++) {
-          state[i].selected = false;
-          effectToggleArray.push(state[i]);
+      for (var i = 0; i < state.length; i++) {
+        state[i].selected = false;
+        effectToggleArray.push(state[i]);
       }
       return effectToggleArray;
   }
@@ -102,9 +102,9 @@ function removeModelItem(state = {}, action) {
 
 // Change state of individual ListView items between NONE, LOADING, ERROR, LOADED
 function modifyLoadState(state = {}, action) {
-  if(state[action.uuid] != null || state[action.uuid] != undefined) {
+  if (state[action.uuid] != null || state[action.uuid] != undefined) {
     var model = state[action.uuid];
-    var newModel = {...model};
+    var newModel = { ...model };
     newModel.loading = action.loadState;
     state[action.uuid] = newModel;
   }
@@ -117,55 +117,55 @@ export default reducer = (state = initialState, action) => {
     case 'ADD_MODEL':
       return {
         ...state,
-        modelItems: {...addModelItem(state.modelItems, action)},
+        modelItems: { ...addModelItem(state.modelItems, action) },
       }
     case 'REMOVE_MODEL':
       return {
         ...state,
-        modelItems: {...removeModelItem(state.modelItems, action)},
+        modelItems: { ...removeModelItem(state.modelItems, action) },
       }
     case 'ADD_PORTAL':
       return {
         ...state,
-        portalItems: {...addModelItem(state.portalItems, action)},
+        portalItems: { ...addModelItem(state.portalItems, action) },
       }
     case 'REMOVE_PORTAL':
       return {
         ...state,
-        portalItems: {...removeModelItem(state.portalItems, action)},
+        portalItems: { ...removeModelItem(state.portalItems, action) },
       }
     case 'REMOVE_ALL':
       //clear efffects
       var updatedEffects = modifyEffectSelection(state.effectItems.slice(0), action);
       return {
         ...state,
-        portalItems:{},
-        modelItems:{},
+        portalItems: {},
+        modelItems: {},
         effectItems: updatedEffects.slice(0),
         // postProcessEffects: EffectsConstants.EFFECT_NONE,
       }
     case 'CHANGE_MODEL_LOAD_STATE':
       return {
         ...state,
-        modelItems: {...modifyLoadState(state.modelItems, action)},
+        modelItems: { ...modifyLoadState(state.modelItems, action) },
       }
     case 'CHANGE_PORTAL_LOAD_STATE':
       return {
         ...state,
-        portalItems: {...modifyLoadState(state.portalItems, action)},
+        portalItems: { ...modifyLoadState(state.portalItems, action) },
       }
     case 'CHANGE_PORTAL_PHOTO':
-        return {
-          ...state,
-          portalItems: {...changePortalPhoto(state.portalItems, action)},
+      return {
+        ...state,
+        portalItems: { ...changePortalPhoto(state.portalItems, action) },
       }
     case 'TOGGLE_EFFECT_SELECTED':
-        var updatedEffects = modifyEffectSelection(state.effectItems.slice(0), action);
-        return  {
-          ...state,
-          effectItems: updatedEffects.slice(0),
-          postProcessEffects: updatedEffects[action.index].postProcessEffects,
-        }
+      var updatedEffects = modifyEffectSelection(state.effectItems.slice(0), action);
+      return {
+        ...state,
+        effectItems: updatedEffects.slice(0),
+        postProcessEffects: updatedEffects[action.index].postProcessEffects,
+      }
     default:
       return state;
   }
@@ -175,7 +175,26 @@ export default reducer = (state = initialState, action) => {
 // action to add, to the AR Scene, the model at the given index from data model at path: js/model/ModelItems.js
 export const addModelWithIndex = index => {
   return {
-      type:'ADD_MODEL',
-      index: index,
+    type: 'ADD_MODEL',
+    index: index,
   }
+}
+
+// action to change state of individual ListView items between NONE, LOADING, ERROR, LOADED (path: js/redux/LoadingStateConstants.js)
+export function changeModelLoadState(uuid, loadState) {
+  return {
+    type: 'CHANGE_MODEL_LOAD_STATE',
+    uuid: uuid,
+    loadState: loadState,
+  };
+}
+
+// action to change state of individual ListView items to determine while item is clicked -> for triggering listview animations
+export function changeItemClickState(index, clickState, itemType) {
+  return {
+    type: 'CHANGE_ITEM_CLICK_STATE',
+    index: index,
+    clickState: clickState,
+    itemType: itemType,
+  };
 }

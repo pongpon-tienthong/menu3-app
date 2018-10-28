@@ -10,12 +10,23 @@ import * as LoadingConstants from "../../redux/LoadingStateConstants";
 import * as ModelData from '../../model/ModelItems';
 import renderIf from "../../helpers/renderIf";
 
-import { addModelWithIndex } from "../../reducers/arObjectReducer";
+import { addModelWithIndex, changeModelLoadState, changeItemClickState } from "../../reducers/arObjectReducer";
 import ARInitializationUI from "../../components/ARInitializationUI";
 import FigmentListView from "../../components/FigmentListView";
-import HelloWorldARScene from "./HelloWorldARScene";
+import InitialScene from "./InitialScene";
 
 class ARScreen extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      viroAppProps: {
+        loadingObjectCallback: this._onListItemLoaded,
+        clickStateCallback: this._onItemClickedInScene
+      },
+    };
+  }
 
   // Load data source for listview based on listview modes
   _getListItems = () => {
@@ -71,13 +82,38 @@ class ARScreen extends Component {
     return loadingConstant;
   }
 
+  // Helper function called while initializing <ViroARSceneNavigator>
+  _setARNavigatorRef = (ARNavigator) => {
+    this._arNavigator = ARNavigator;
+  }
+
+  // Dispath correct event to redux for handling load states of Objects and Portals
+  _onListItemLoaded = (index, loadState) => {
+    if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
+      this.props.dispatchChangeModelLoadState(index, loadState);
+    }
+
+    // if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
+    //   this.props.dispatchChangePortalLoadState(index, loadState);
+    // }
+  }
+
+  // When an AR object (Object or Portal) in the scene is clicked; 
+  // dispatch this event to redux -> which results in context menu appearing on top left
+  _onItemClickedInScene = (index, clickState, itemType) => {
+    this.props.dispatchChangeItemClickState(index, clickState, itemType);
+  }
+
   render() {
     return (
       <View style={localStyles.flex}>
         <StatusBar hidden={true} />
         <ViroARSceneNavigator
+          style={localStyles.arView}
           apiKey="0C9DEEB7-FC2C-4867-B8A1-6E771E565142"
-          initialScene={{ scene: HelloWorldARScene }}
+          initialScene={{ scene: InitialScene }}
+          ref={this._setARNavigatorRef}
+          viroAppProps={this.state.viroAppProps}
         />
 
         {/* AR Initialization animation shown to the user for moving device around to get AR Tracking working*/}
@@ -258,12 +294,12 @@ const mapDispatchToProps = (dispatch) => {
     // dispatchRemoveModelWithUUID: (uuid) => dispatch(removeModelWithUUID(uuid)),
     // dispatchRemoveAll:() => dispatch(removeAll()),
     // dispatchToggleEffectSelection: (index) => dispatch(toggleEffectSelection(index)),
-    // dispatchChangeModelLoadState:(index, loadState) =>dispatch(changeModelLoadState(index, loadState)),
+    dispatchChangeModelLoadState: (index, loadState) => dispatch(changeModelLoadState(index, loadState)),
     // dispatchChangePortalLoadState:(index, loadState) =>dispatch(changePortalLoadState(index, loadState)),
     // dispatchDisplayUIScreen: (uiScreenState) => dispatch(displayUIScreen(uiScreenState)),
     // dispatchSwitchListMode: (listMode, listTitle) =>dispatch(switchListMode(listMode, listTitle)),
     // dispatchChangePortalPhoto:(index, source)=>dispatch(changePortalPhoto(index, source)),
-    // dispatchChangeItemClickState:(index, clickState, itemType) =>dispatch(changeItemClickState(index, clickState, itemType)),
+    dispatchChangeItemClickState: (index, clickState, itemType) => dispatch(changeItemClickState(index, clickState, itemType)),
   }
 }
 
