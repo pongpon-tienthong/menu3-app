@@ -172,7 +172,7 @@ const selectProps = store => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatchARTrackingInitialized: (trackingNormal) => dispatch(ARTrackingInitialized(trackingNormal)),
-  }
+  };
 }
 
 export default connect(selectProps, mapDispatchToProps)(InitialScene);

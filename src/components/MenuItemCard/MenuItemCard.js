@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ImageBackground, TouchableHighlight } from "react-native";
-import { Actions } from "../../../node_modules/react-native-router-flux";
-
+// import { Actions } from "../../../node_modules/react-native-router-flux";
 
 class MenuItemCard extends Component {
 
-  onPressMenuItemCard = () => {
-    Actions.arScreen({ title: this.props.menuItem.name });
-  }
+  // onPressMenuItemCard = () => {
+  //   Actions.arScreen({ title: this.props.menuItem.name });
+  // }
 
   render() {
     return (
@@ -15,7 +14,7 @@ class MenuItemCard extends Component {
         <View style={styles.PicContainer}>
           <TouchableHighlight
             underlayColor='white'
-            onPress={() => this.onPressMenuItemCard()}
+            onPress={() => this.props.onPressMenuItem(this.props.menuItem)}
           >
             <ImageBackground style={styles.pic} source={{ uri: this.props.menuItem.imgSrc }}>
               <View>
