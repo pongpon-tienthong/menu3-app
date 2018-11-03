@@ -19,7 +19,7 @@ import {
 
 import ModelItemRender from "../components/ModelItemRender";
 
-class InitialScene extends Component {
+class ARInitialScene extends Component {
   constructor() {
     super();
   }
@@ -178,4 +178,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(selectProps, mapDispatchToProps)(InitialScene);
+export default connect(selectProps, mapDispatchToProps)(ARInitialScene);

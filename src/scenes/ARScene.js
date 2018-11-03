@@ -13,7 +13,7 @@ import renderIf from "../helpers/renderIf";
 import { addModelWithIndex, changeModelLoadState, changeItemClickState } from "../redux/reducers/arObjectReducer";
 import ARInitializationUI from "../components/ARInitializationUI";
 import FigmentListView from "../components/FigmentListView";
-import InitialScene from "./InitialScene";
+import ARInitialScene from "./ARInitialScene";
 
 class ARScene extends Component {
 
@@ -111,7 +111,7 @@ class ARScene extends Component {
         <ViroARSceneNavigator
           style={localStyles.arView}
           apiKey="0C9DEEB7-FC2C-4867-B8A1-6E771E565142"
-          initialScene={{ scene: InitialScene }}
+          initialScene={{ scene: ARInitialScene }}
           ref={this._setARNavigatorRef}
           viroAppProps={this.state.viroAppProps}
         />
