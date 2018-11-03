@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from '../reducers';
+import reducers from '../redux/reducers';
 import { createLogger } from 'redux-logger';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
@@ -29,7 +29,7 @@ export default configureStore = () => {
 
   if (module.hot) {
     module.hot.accept(() => {
-      const nextRootReducer = require('../reducers').default
+      const nextRootReducer = require('../redux/reducers').default
       store.replaceReducer(nextRootReducer)
     })
   };

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, ImageBackground, TouchableHighlight } from "react-native";
 // import { Actions } from "../../../node_modules/react-native-router-flux";
 
-class MenuItemCard extends Component {
+class MenuItem extends Component {
 
-  // onPressMenuItemCard = () => {
+  // onPressMenuItem = () => {
   //   Actions.arScreen({ title: this.props.menuItem.name });
   // }
 
@@ -33,7 +33,7 @@ class MenuItemCard extends Component {
   }
 }
 
-export default MenuItemCard;
+export default MenuItem;
 
 const styles = StyleSheet.create({
   shadow: {

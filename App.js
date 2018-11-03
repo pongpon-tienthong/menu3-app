@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 import { connect, Provider } from 'react-redux';
 
-import configureStore from './src/store/configureStore';
-import RestaurantScreen from "./src/screens/RestaurantScreen/RestaurantScreen";
-import MenuScreen from "./src/screens/MenuScreen/MenuScreen";
-import ARScreen from "./src/screens/ARScreen/ARScreen";
+import configureStore from './src/redux/configureStore';
+import RestaurantScene from "./src/scenes/RestaurantScene";
+import MenuScene from "./src/scenes/MenuScene";
+import ARScene from "./src/scenes/ARScene";
 
 const store = configureStore()
 const RouterWithRedux = connect()(Router);
@@ -15,7 +15,7 @@ export default class Menu3App extends Component {
     isReady: false
   }
 
-  async componentWillMount() {
+  componentDidMount() {
     this.setState({ isReady: true });
   }
 
@@ -28,9 +28,9 @@ export default class Menu3App extends Component {
       <Provider store={store}>
         <RouterWithRedux>
           <Scene key="root">
-            <Scene key="restaurantScreen" component={RestaurantScreen} title="Restaurants" initial />
-            <Scene key="menuScreen" component={MenuScreen} title="Menus" />
-            <Scene key="arScreen" component={ARScreen} title="AR" />
+            <Scene key="restaurantScene" component={RestaurantScene} title="Restaurants" initial />
+            <Scene key="menuScene" component={MenuScene} title="Menus" />
+            <Scene key="arScene" component={ARScene} title="AR" />
           </Scene>
         </RouterWithRedux>
       </Provider>

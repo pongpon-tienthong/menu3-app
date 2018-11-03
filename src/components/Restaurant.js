@@ -3,23 +3,13 @@ import { connect } from "react-redux";
 import { View, Text, StyleSheet, ImageBackground, TouchableHighlight } from 'react-native';
 import { Actions } from "react-native-router-flux";
 
-import { selectRestaurant } from "../../reducers/restaurantReducer";
+import { selectRestaurant } from "../redux/reducers/restaurantReducer";
 
-class RestaurantCard extends Component {
+class Restaurant extends Component {
 
-
-
-  // itemSelectedHandler = () => {
-  //   this.props.navigator.push({
-  //     screen: 'm3.MenuScreen',
-  //     title: "Maize Mexican Grill",
-  //     backButtonTitle: " ",
-  //   });
-  // }
-
-  onPressRestaurantCard = () => {
+  onPressRestaurant = () => {
     this.props.selectRestaurant(this.props.restaurant);
-    Actions.menuScreen({ title: this.props.restaurant.name })
+    Actions.menuScene({ title: this.props.restaurant.name })
   }
 
   render() {
@@ -28,7 +18,7 @@ class RestaurantCard extends Component {
         <View style={styles.PicContainer}>
           <TouchableHighlight
             underlayColor='white'
-            onPress={() => this.onPressRestaurantCard()}
+            onPress={() => this.onPressRestaurant()}
           >
             <ImageBackground style={styles.pic} source={{ uri: this.props.restaurant.imgSrc }}>
               <View>
@@ -48,7 +38,7 @@ const mapDispatchToProps = {
   selectRestaurant
 };
 
-export default connect(null, mapDispatchToProps)(RestaurantCard);
+export default connect(null, mapDispatchToProps)(Restaurant);
 
 const styles = StyleSheet.create({
   shadow: {

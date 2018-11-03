@@ -4,18 +4,18 @@ import { StyleSheet, View, StatusBar } from "react-native";
 
 import { ViroARSceneNavigator } from 'react-viro';
 
-import * as UIConstants from "../../redux/UIConstants";
-import * as LoadingConstants from "../../redux/LoadingStateConstants";
+import * as UIConstants from "../redux/UIConstants";
+import * as LoadingConstants from "../redux/LoadingStateConstants";
 
-import * as ModelData from '../../model/ModelItems';
-import renderIf from "../../helpers/renderIf";
+import * as ModelData from '../model/ModelItems';
+import renderIf from "../helpers/renderIf";
 
-import { addModelWithIndex, changeModelLoadState, changeItemClickState } from "../../reducers/arObjectReducer";
-import ARInitializationUI from "../../components/ARInitializationUI";
-import FigmentListView from "../../components/FigmentListView";
+import { addModelWithIndex, changeModelLoadState, changeItemClickState } from "../redux/reducers/arObjectReducer";
+import ARInitializationUI from "../components/ARInitializationUI";
+import FigmentListView from "../components/FigmentListView";
 import InitialScene from "./InitialScene";
 
-class ARScreen extends Component {
+class ARScene extends Component {
 
   constructor(props) {
     super(props);
@@ -302,4 +302,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(selectProps, mapDispatchToProps)(ARScreen);
+export default connect(selectProps, mapDispatchToProps)(ARScene);

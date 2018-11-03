@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, FlatList } from 'react-native';
-import RestaurantCard from '../../components/RestaurantCard/RestaurantCard';
+import Restaurant from '../components/Restaurant';
 
-import { getRestaurants } from "../../reducers/restaurantReducer";
+import { getRestaurants } from "../redux/reducers/restaurantReducer";
 
 // import { SearchBar } from 'react-native-elements'
 
-class RestaurantScreen extends Component {
+class RestaurantScene extends Component {
 
   componentDidMount() {
     this.props.getRestaurants();
@@ -20,7 +20,7 @@ class RestaurantScreen extends Component {
           data={this.props.restaurants}
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => {
-            return <RestaurantCard restaurant={item} navigator={this.props.navigator} />
+            return <Restaurant restaurant={item} navigator={this.props.navigator} />
           }}
         />
       </View>
@@ -38,7 +38,7 @@ const mapDispatchToProps = {
   getRestaurants
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestaurantScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantScene);
 
 const styles = StyleSheet.create({
   itemContainer: {

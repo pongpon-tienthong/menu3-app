@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { StyleSheet } from 'react-native';
 
-import { ARTrackingInitialized } from "../../reducers/uiReducer";
+import { ARTrackingInitialized } from "../redux/reducers/uiReducer";
 
 import {
   ViroARScene,
@@ -17,7 +17,7 @@ import {
   ViroSpotLight
 } from 'react-viro';
 
-import ModelItemRender from "../../components/ModelItemRender";
+import ModelItemRender from "../components/ModelItemRender";
 
 class InitialScene extends Component {
   constructor() {

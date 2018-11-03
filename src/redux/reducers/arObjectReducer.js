@@ -8,7 +8,7 @@
  *
  */
 // import * as EffectData from  '../../model/EffectItems';
-import * as LoadingConstants from '../redux/LoadingStateConstants';
+import * as LoadingConstants from '../LoadingStateConstants';
 // import * as EffectsConstants from '../EffectsConstants';
 
 /**

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import MenuItemCard from "../../components/MenuItemCard/MenuItemCard";
+import MenuItem from "../components/MenuItem";
 
 import { Actions } from "react-native-router-flux";
 
-import { getMenuItems, selectedMenuItem } from "../../reducers/menuReducer";
+import { getMenuItems, selectedMenuItem } from "../redux/reducers/menuReducer";
 
-class MenuScreen extends Component {
+class MenuScene extends Component {
 
   componentDidMount() {
     this.props.getMenuItems(this.props.selectedRestaurant.id);
@@ -18,7 +18,7 @@ class MenuScreen extends Component {
     this.props.selectedMenuItem(menuItem);
 
     if (menuItem.arSrc) {
-      Actions.arScreen({ title: menuItem.name });
+      Actions.arScene({ title: menuItem.name });
     }
   }
 
@@ -30,7 +30,7 @@ class MenuScreen extends Component {
           keyExtractor={item => item.id.toString()}
           numColumns={2}
           renderItem={({ item }) => {
-            return <MenuItemCard menuItem={item} onPressMenuItem={this.onPressMenuItem} />
+            return <MenuItem menuItem={item} onPressMenuItem={this.onPressMenuItem} />
           }}
         />
       </View>
@@ -50,7 +50,7 @@ const mapDispatchToProps = {
   selectedMenuItem
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuScene);
 
 const styles = StyleSheet.create({
   itemContainer: {

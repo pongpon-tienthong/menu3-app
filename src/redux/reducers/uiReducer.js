@@ -8,7 +8,7 @@
  *
  */
 
-import *  as UIConstants from '../redux/UIConstants';
+import *  as UIConstants from '../UIConstants';
 
 export const AR_TRACKING_INITIALIZED = 'AR_TRACKING_INITIALIZED';
 
