@@ -16,7 +16,10 @@ class MenuScreen extends Component {
 
   onPressMenuItem = (menuItem) => {
     this.props.selectedMenuItem(menuItem);
-    Actions.arScreen({ title: menuItem.name });
+
+    if (menuItem.arSrc) {
+      Actions.arScreen({ title: menuItem.name });
+    }
   }
 
   render() {
@@ -42,11 +45,9 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getMenuItems: (restaurantId) => dispatch(getMenuItems(restaurantId)),
-    selectedMenuItem: menuItem => dispatch(selectedMenuItem(menuItem))
-  };
+const mapDispatchToProps = {
+  getMenuItems,
+  selectedMenuItem
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);

@@ -34,6 +34,10 @@ var createReactClass = require('create-react-class');
 var ModelItemRender = createReactClass({
   mixins: [TimerMixin],
   propTypes: {
+
+    // TODO: Remove this later once change this component to ES6
+    menuItems: PropTypes.any,
+
     // All props retreived from the data model for Models (See js/model/ModelItems.js)
     modelIDProps: PropTypes.any,
     // Callback function that gets triggered once the model is loaded
@@ -46,12 +50,12 @@ var ModelItemRender = createReactClass({
   },
 
   componentDidMount() {
-    this._modelData = ModelData.getModelArray();
+    this._modelData = this.props.menuItems;
   },
 
   getInitialState() {
     return {
-      scale: ModelData.getModelArray()[this.props.modelIDProps.index].scale,
+      scale: this.props.menuItems[this.props.modelIDProps.index].scale,
       rotation: [0, 0, 0],
       nodeIsVisible: false,
       position: [0, 10, 1], // make it appear initially high in the sky
@@ -63,8 +67,8 @@ var ModelItemRender = createReactClass({
   },
 
   render: function () {
-    var modelItem = ModelData.getModelArray()[this.props.modelIDProps.index];
-    
+    var modelItem = this.props.menuItems[this.props.modelIDProps.index];
+
     let transformBehaviors = {};
     if (this.state.shouldBillboard) {
       transformBehaviors.transformBehaviors = this.state.shouldBillboard ? "billboardY" : [];

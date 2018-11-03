@@ -31,7 +31,7 @@ class ARScreen extends Component {
   // Load data source for listview based on listview modes
   _getListItems = () => {
     if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
-      return this._constructListArrayModel(ModelData.getModelArray(), this.props.modelItems);
+      return this._constructListArrayModel([this.props.selectedMenuItem], this.props.modelItems);
     }
     // else if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
     //   return this._constructListArrayModel(PortalData.getPortalArray(), this.props.portalItems);
@@ -120,11 +120,9 @@ class ARScreen extends Component {
         <ARInitializationUI style={{ position: 'absolute', top: 20, left: 0, right: 0, width: '100%', height: 140, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }} />
 
         {/* ListView at the bottom of the screen */}
-        {renderIf(this.props.currentScreen != UIConstants.SHOW_SHARE_SCREEN,
-          <View style={localStyles.listView}>
-            <FigmentListView items={this._getListItems()} onPress={this._onListPressed} />
-          </View>
-        )}
+        <View style={localStyles.listView}>
+          <FigmentListView items={this._getListItems()} onPress={this._onListPressed} />
+        </View>
       </View>
     );
   }
@@ -283,6 +281,7 @@ const selectProps = store => {
     currentItemSelectionIndex: store.ui.currentItemSelectionIndex,
     // currentItemClickState: store.ui.currentItemClickState,
     // currentSelectedItemType: store.ui.currentSelectedItemType,
+    selectedMenuItem: store.menu.selectedMenuItem 
   };
 }
 

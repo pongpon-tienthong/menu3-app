@@ -95,7 +95,9 @@ class InitialScene extends Component {
       Object.keys(modelItems).forEach(function (currentKey) {
         if (modelItems[currentKey] != null && modelItems[currentKey] != undefined) {
           renderedObjects.push(
-            <ModelItemRender key={modelItems[currentKey].uuid}
+            <ModelItemRender 
+              menuItems={[root.props.selectedMenuItem]}
+              key={modelItems[currentKey].uuid}
               modelIDProps={modelItems[currentKey]}
               hitTestMethod={root._performARHitTest}
               onLoadCallback={root._onLoadCallback}
@@ -165,6 +167,7 @@ var styles = StyleSheet.create({
 const selectProps = store => {
   return {
     modelItems: store.arObject.modelItems,
+    selectedMenuItem: store.menu.selectedMenuItem
     // postProcessEffects: store.arObject.postProcessEffects,
   };
 }
