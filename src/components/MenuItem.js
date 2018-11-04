@@ -4,10 +4,6 @@ import { View, Text, StyleSheet, ImageBackground, TouchableHighlight } from "rea
 
 class MenuItem extends Component {
 
-  // onPressMenuItem = () => {
-  //   Actions.arScreen({ title: this.props.menuItem.name });
-  // }
-
   render() {
     return (
       <View style={styles.shadow}>

@@ -18,7 +18,7 @@ class MenuScene extends Component {
     this.props.selectedMenuItem(menuItem);
 
     if (menuItem.arSrc) {
-      Actions.arScene({ title: menuItem.name });
+      Actions.ArScene({ title: menuItem.name });
     }
   }
 

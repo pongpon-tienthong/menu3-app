@@ -1,4 +1,5 @@
 export const SHOW_MENUITEM = 'SHOW_MENUITEM';
+export const HIDE_MENUITEM = 'HIDE_MENUITEM';
 
 // import * as EffectData from  '../../model/EffectItems';
 import * as LoadingConstants from '../LoadingStateConstants';
@@ -161,10 +162,15 @@ export default reducer = (state = initialState, action) => {
         effectItems: updatedEffects.slice(0),
         postProcessEffects: updatedEffects[action.index].postProcessEffects,
       }
-    case SHOW_MENUITEM: 
+    case SHOW_MENUITEM:
       return {
         ...state,
-        showMenuItem: true 
+        showMenuItem: true
+      }
+    case HIDE_MENUITEM:
+      return {
+        ...state,
+        showMenuItem: false
       }
     default:
       return state;
@@ -202,5 +208,11 @@ export function changeItemClickState(index, clickState, itemType) {
 export const showMenuItem = () => {
   return {
     type: SHOW_MENUITEM
+  }
+}
+
+export const hideMenuItem = () => {
+  return {
+    type: HIDE_MENUITEM
   }
 }

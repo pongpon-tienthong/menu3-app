@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
-
 import { StyleSheet } from 'react-native';
 
 import { ARTrackingInitialized } from "../redux/reducers/uiReducer";
+import { hideMenuItem } from "../redux/reducers/arObjectReducer";
 
 import {
   ViroARScene,
@@ -16,11 +15,13 @@ import {
 
 import ModelItemRender from "../components/ModelItemRender";
 
-import renderIf from "../helpers/renderIf";
-
 class ARInitialScene extends Component {
   constructor() {
     super();
+  }
+
+  componentWillUnmount() {
+    this.props.dispatchHideMenuItem();
   }
 
   render() {
@@ -180,6 +181,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatchARTrackingInitialized: (trackingNormal) => dispatch(ARTrackingInitialized(trackingNormal)),
+    dispatchHideMenuItem: () => dispatch(hideMenuItem())
   };
 }
 

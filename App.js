@@ -10,7 +10,7 @@ import ARScene from "./src/scenes/ARScene";
 const store = configureStore()
 const RouterWithRedux = connect()(Router);
 
-export default class Menu3App extends Component {
+class Menu3App extends Component {
   state = {
     isReady: false
   }
@@ -28,12 +28,14 @@ export default class Menu3App extends Component {
       <Provider store={store}>
         <RouterWithRedux>
           <Scene key="root">
-            <Scene key="restaurantScene" component={RestaurantScene} title="Restaurants" initial />
-            <Scene key="menuScene" component={MenuScene} title="Menus" />
-            <Scene key="arScene" component={ARScene} title="AR" />
+            <Scene key="RestaurantScene" component={RestaurantScene} title="Restaurants" initial />
+            <Scene key="MenuScene" component={MenuScene} title="Menus" />
+            <Scene key="ArScene" component={ARScene} title="AR" />
           </Scene>
         </RouterWithRedux>
       </Provider>
     );
   }
 }
+
+export default Menu3App;

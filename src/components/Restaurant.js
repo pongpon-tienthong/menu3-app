@@ -9,7 +9,11 @@ class Restaurant extends Component {
 
   onPressRestaurant = () => {
     this.props.selectRestaurant(this.props.restaurant);
-    Actions.menuScene({ title: this.props.restaurant.name })
+    Actions.MenuScene({ title: this.props.restaurant.name })
+  }
+
+  onBack = () => {
+    console.log('custom back callback');
   }
 
   render() {
