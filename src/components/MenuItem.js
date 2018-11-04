@@ -1,57 +1,46 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ImageBackground, TouchableHighlight } from "react-native";
-// import { Actions } from "../../../node_modules/react-native-router-flux";
 
-class MenuItem extends Component {
-
-  render() {
-    return (
-      <View style={styles.shadow}>
-        <View style={styles.PicContainer}>
-          <TouchableHighlight
-            underlayColor='white'
-            onPress={() => this.props.onPressMenuItem(this.props.menuItem)}
-          >
-            <ImageBackground style={styles.pic} source={{ uri: this.props.menuItem.imgSrc }}>
-              <View>
-                <Text style={[styles.textName, { backgroundColor: 'transparent' }]}>
-                  {this.props.menuItem.name}
-                </Text>
-                <Text style={[styles.textPrice, { backgroundColor: 'transparent' }]}>
-                  {this.props.menuItem.price}
-                </Text>
-              </View>
-            </ImageBackground>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
+const menuItem = props => {
+  return (
+    <View style={[styles.container, styles.shadow]}>
+      <TouchableHighlight
+        underlayColor='white'
+        onPress={() => props.onPressMenuItem(props.menuItem)}
+      >
+        <ImageBackground style={styles.imageContainer} source={{ uri: props.menuItem.imgSrc }}>
+          <View>
+            <Text style={[styles.textName, { backgroundColor: 'transparent' }]}>
+              {props.menuItem.name}
+            </Text>
+            <Text style={[styles.textPrice, { backgroundColor: 'transparent' }]}>
+              {props.menuItem.price}
+            </Text>
+          </View>
+        </ImageBackground>
+      </TouchableHighlight>
+    </View>
+  );
 }
 
-export default MenuItem;
-
 const styles = StyleSheet.create({
+  container: {
+    width: 170,
+    height: 170,
+    margin: 10
+  },
+  imageContainer: {
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    borderRadius: 10
+  },
   shadow: {
-    shadowOffset: { width: 5, height: 5 },
+    shadowOffset: { width: 3, height: 3 },
     shadowColor: "grey",
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-  PicContainer: {
-    marginLeft: 18,
-    marginTop: 5,
-    marginBottom: 20,
-    borderRadius: 10,
-    overflow: 'hidden',
-    // borderWidth: .5,
-    //borderColor: '#D9DBDB',
-  },
-  pic: {
-    width: 160, //will eventually need to progromatically match these to size of screen
-    height: 160,
-
+    shadowRadius: 3,
+    elevation: 3,
   },
   textName: {
     fontFamily: 'System',
@@ -78,3 +67,5 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
   }
 });
+
+export default menuItem;
