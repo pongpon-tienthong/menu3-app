@@ -1,12 +1,5 @@
-/**
- * Copyright (c) 2017-present, Viro Media, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+export const SHOW_MENUITEM = 'SHOW_MENUITEM';
+
 // import * as EffectData from  '../../model/EffectItems';
 import * as LoadingConstants from '../LoadingStateConstants';
 // import * as EffectsConstants from '../EffectsConstants';
@@ -23,6 +16,8 @@ const initialState = {
   portalItems: {},
   // effectItems: EffectData.getInitEffectArray(),
   // postProcessEffects: EffectsConstants.EFFECT_NONE,
+
+  showMenuItem: false
 }
 
 // Creates a new model item with the given index from the data model in ModelItems.js
@@ -166,6 +161,11 @@ export default reducer = (state = initialState, action) => {
         effectItems: updatedEffects.slice(0),
         postProcessEffects: updatedEffects[action.index].postProcessEffects,
       }
+    case SHOW_MENUITEM: 
+      return {
+        ...state,
+        showMenuItem: true 
+      }
     default:
       return state;
   }
@@ -197,4 +197,10 @@ export function changeItemClickState(index, clickState, itemType) {
     clickState: clickState,
     itemType: itemType,
   };
+}
+
+export const showMenuItem = () => {
+  return {
+    type: SHOW_MENUITEM
+  }
 }

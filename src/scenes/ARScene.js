@@ -10,7 +10,7 @@ import * as LoadingConstants from "../redux/LoadingStateConstants";
 import * as ModelData from '../model/ModelItems';
 import renderIf from "../helpers/renderIf";
 
-import { addModelWithIndex, changeModelLoadState, changeItemClickState } from "../redux/reducers/arObjectReducer";
+import { addModelWithIndex, changeModelLoadState, changeItemClickState, showMenuItem } from "../redux/reducers/arObjectReducer";
 import ARInitializationUI from "../components/ARInitializationUI";
 import FigmentListView from "../components/FigmentListView";
 import ARInitialScene from "./ARInitialScene";
@@ -42,17 +42,9 @@ class ARScene extends Component {
   }
 
   _onListPressed = (index) => {
-    if (this.props.listMode == UIConstants.LIST_MODE_MODEL) {
-      this.props.dispatchAddModel(index);
-    }
+    // this.props.dispatchAddModel(index);
 
-    // if (this.props.listMode == UIConstants.LIST_MODE_PORTAL) {
-    //   this.props.dispatchAddPortal(index);
-    // }
-
-    // if (this.props.listMode == UIConstants.LIST_MODE_EFFECT) {
-    //   this.props.dispatchToggleEffectSelection(index);
-    // }
+    this.props.dispatchShowMenuItem();
   }
 
   // Helper to construct listview items
@@ -299,6 +291,8 @@ const mapDispatchToProps = (dispatch) => {
     // dispatchSwitchListMode: (listMode, listTitle) =>dispatch(switchListMode(listMode, listTitle)),
     // dispatchChangePortalPhoto:(index, source)=>dispatch(changePortalPhoto(index, source)),
     dispatchChangeItemClickState: (index, clickState, itemType) => dispatch(changeItemClickState(index, clickState, itemType)),
+
+    dispatchShowMenuItem: () => dispatch(showMenuItem())
   }
 }
 

@@ -61,6 +61,7 @@ export const selectedMenuItem = (menuItem) => {
     switch (menuItem.id) {
       case 3: // Taco Mexica
         stubMenuItem = {
+          "id": 3,
           "name": "tacoMexica",
           "selected": false,
           "loading": 'NONE',
@@ -85,6 +86,7 @@ export const selectedMenuItem = (menuItem) => {
         break;
       case 4: // Nacho
         stubMenuItem = {
+          "id": 4,
           "name": "nachos",
           "selected": false,
           "loading": 'NONE',
@@ -109,6 +111,7 @@ export const selectedMenuItem = (menuItem) => {
         break;
       case 56: // Signature Crepe
         stubMenuItem = {
+          "id": 56,
           "name": "signatureCrepe",
           "selected": false,
           "loading": 'NONE',
@@ -133,6 +136,7 @@ export const selectedMenuItem = (menuItem) => {
         break;
       case 81: // Green Tea Rolled Ice Cream
         stubMenuItem = {
+          "id": 81,
           "name": "greenTeaRolledIceCream",
           "selected": false,
           "loading": 'NONE',

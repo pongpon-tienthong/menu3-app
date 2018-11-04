@@ -36,10 +36,11 @@ var ModelItemRender = createReactClass({
   propTypes: {
 
     // TODO: Remove this later once change this component to ES6
-    menuItems: PropTypes.any,
+    // menuItems: PropTypes.any,
 
     // All props retreived from the data model for Models (See js/model/ModelItems.js)
-    modelIDProps: PropTypes.any,
+    // modelIDProps: PropTypes.any,
+
     // Callback function that gets triggered once the model is loaded
     onLoadCallback: PropTypes.func,
     // Callback function thats fired when a user clicks the model
@@ -50,12 +51,12 @@ var ModelItemRender = createReactClass({
   },
 
   componentDidMount() {
-    this._modelData = this.props.menuItems;
+    // this._modelData = this.props.menuItems;
   },
 
   getInitialState() {
     return {
-      scale: this.props.menuItems[this.props.modelIDProps.index].scale,
+      scale: this.props.menuItem.scale,
       rotation: [0, 0, 0],
       nodeIsVisible: false,
       position: [0, 10, 1], // make it appear initially high in the sky
@@ -67,7 +68,8 @@ var ModelItemRender = createReactClass({
   },
 
   render: function () {
-    var modelItem = this.props.menuItems[this.props.modelIDProps.index];
+    // var modelItem = this.props.menuItems[this.props.modelIDProps.index];
+    var modelItem = this.props.menuItem;
 
     let transformBehaviors = {};
     if (this.state.shouldBillboard) {
@@ -78,13 +80,13 @@ var ModelItemRender = createReactClass({
 
       <ViroNode
         {...transformBehaviors}
-        key={this.props.modelIDProps.uuid}
+        key={modelItem.id}
         ref={this._setARNodeRef}
         visible={this.state.nodeIsVisible}
         position={this.state.position}
         scale={this.state.scale}
         rotation={this.state.rotation}
-        onDrag={() => { }}
+        onDrag={() => {}}
         dragType="FixedToWorld">
 
         {/* This SpotLight is placed directly above the 3D Object, directed straight down,
@@ -123,13 +125,13 @@ var ModelItemRender = createReactClass({
             animation={{ ...modelItem.animation, "run": this.state.runAnimation }}
             lightReceivingBitMask={this.props.bitMask | 1}
             shadowCastingBitMask={this.props.bitMask}
-            onClickState={this._onClickState(this.props.modelIDProps.uuid)}
+            onClickState={this._onClickState(modelItem.id)}
             onClick={() => { }}
-            onError={this._onError(this.props.modelIDProps.uuid)}
+            onError={this._onError(modelItem.id)}
             onRotate={this._onRotate}
             onPinch={this._onPinch}
-            onLoadStart={this._onObjectLoadStart(this.props.modelIDProps.uuid)}
-            onLoadEnd={this._onObjectLoadEnd(this.props.modelIDProps.uuid)} />
+            onLoadStart={this._onObjectLoadStart(modelItem.id)}
+            onLoadEnd={this._onObjectLoadEnd(modelItem.id)} />
 
           {/* Some of the objects (Birthcake and Angry Emoji) 
                   also have Particle Emitters that are rendered with them (configured in data model with prop "emitter_name".
@@ -214,7 +216,7 @@ var ModelItemRender = createReactClass({
       this.setState({
         rotation: [this.state.rotation[0], this.state.rotation[1] + rotationFactor, this.state.rotation[2]]
       });
-      this.props.onClickStateCallback(this.props.modelIDProps.uuid, rotateState, UIConstants.LIST_MODE_MODEL);
+      this.props.onClickStateCallback(this.props.menuItem.id, rotateState, UIConstants.LIST_MODE_MODEL);
       return;
     }
 
@@ -235,7 +237,7 @@ var ModelItemRender = createReactClass({
       this.setState({
         scale: newScale
       });
-      this.props.onClickStateCallback(this.props.modelIDProps.uuid, pinchState, UIConstants.LIST_MODE_MODEL);
+      this.props.onClickStateCallback(this.props.menuItem.id, pinchState, UIConstants.LIST_MODE_MODEL);
       return;
     }
 

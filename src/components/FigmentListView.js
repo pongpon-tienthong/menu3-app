@@ -13,9 +13,18 @@ import * as LoadingConstants from '../redux/LoadingStateConstants';
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TouchableHighlight, ActivityIndicator, View, ListView, Image, YellowBox } from 'react-native';
 import renderIf from '../helpers/renderIf';
 import ListViewItem from './ListViewItem';
+
+import {
+  StyleSheet,
+  TouchableHighlight,
+  ActivityIndicator,
+  View,
+  ListView,
+  Image,
+  YellowBox
+} from 'react-native';
 
 /**
  * ListView wrapper that encapsulates behavior for the Listview seen at the bottom of the screen
@@ -32,11 +41,6 @@ class FigmentListView extends Component {
       'Warning: componentWillUpdate is deprecated',
       'Warning: componentWillReceiveProps is deprecated',
     ]);
-
-    this._renderListItem = this._renderListItem.bind(this);
-    this._isSelected = this._isSelected.bind(this);
-    this._onAnimationDone = this._onAnimationDone.bind(this);
-    this._onListItemPressed = this._onListItemPressed.bind(this);
 
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
@@ -77,7 +81,7 @@ class FigmentListView extends Component {
         removeClippedSubviews={false} />);
   }
 
-  _renderListItem(data, sectionid, rowId) {
+  _renderListItem = (data, sectionid, rowId) => {
     return (
       <View style={{ marginLeft: 10 }}>
         <ListViewItem onPress={this._onListItemPressed(rowId)}
@@ -97,20 +101,20 @@ class FigmentListView extends Component {
   }
 
   // Check if given rowId in the listView is selected, used to render the pink border around chosen effect
-  _isSelected(data, rowId) {
+  _isSelected = (data, rowId) => {
     return (this.props.listMode == UIConstants.LIST_MODE_EFFECT
       && this.state.animationDone
       && this.state.selectedItem == rowId);
   }
 
   // Called when animation on the listViewItem is done
-  _onAnimationDone() {
+  _onAnimationDone = () => {
     this.setState({
       animationDone: true,
     })
   }
 
-  _onListItemPressed(rowId) {
+  _onListItemPressed = (rowId) => {
     let selectedItem = this.props.listMode == UIConstants.LIST_MODE_EFFECT ? rowId : this.state.selectedItem;
 
     return () => {

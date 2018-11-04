@@ -9,15 +9,14 @@ import { ARTrackingInitialized } from "../redux/reducers/uiReducer";
 import {
   ViroARScene,
   ViroConstants,
-  ViroMaterials,
   ViroAmbientLight,
-  ViroARPlaneSelector,
-  Viro3DObject,
   ViroDirectionalLight,
   ViroSpotLight
 } from 'react-viro';
 
 import ModelItemRender from "../components/ModelItemRender";
+
+import renderIf from "../helpers/renderIf";
 
 class ARInitialScene extends Component {
   constructor() {
@@ -25,14 +24,7 @@ class ARInitialScene extends Component {
   }
 
   render() {
-    // the starting bitmask is 2 because the default is 1 (2^0 = 1)
-    // let startingBitMask = 2;
-    let startingBitMask = 0;
-
-    // fetch models
-    let models = this._renderModels(this.props.modelItems, startingBitMask);
-    // increment startingBitMask by the number of models
-    startingBitMask += Object.keys(this.props.modelItems).length;
+    const model = this.props.showMenuItem ? this._renderModels() : null;
 
     return (
       <ViroARScene
@@ -56,8 +48,7 @@ class ARInitialScene extends Component {
           // intensity={250}
           castsShadow={true}
         />
-
-        {models}
+        {model}
       </ViroARScene>
     );
   }
@@ -87,30 +78,42 @@ class ARInitialScene extends Component {
   //           spotlight and a corresponding shadow plane. So each new set of these components are assigned a 
   //           consistent bitMask that's used in SpotLight's "influenceBitMask",
   //           Viro3DObject's "shadowCastingBitMask" and "lightReceivingBitMask" and Shadow plane (ViroQuad)'s "lightReceivingBitMask"
-  _renderModels = (modelItems, startingBitMask) => {
-    var renderedObjects = [];
-    if (modelItems) {
-      var root = this;
-      let objBitMask = startingBitMask;
-      Object.keys(modelItems).forEach(function (currentKey) {
-        if (modelItems[currentKey] != null && modelItems[currentKey] != undefined) {
-          renderedObjects.push(
-            <ModelItemRender 
-              menuItems={[root.props.selectedMenuItem]}
-              key={modelItems[currentKey].uuid}
-              modelIDProps={modelItems[currentKey]}
-              hitTestMethod={root._performARHitTest}
-              onLoadCallback={root._onLoadCallback}
-              onClickStateCallback={root._onModelsClickStateCallback}
-              bitMask={Math.pow(2, objBitMask)} />
-          );
-        }
-        objBitMask++;
-      });
 
-    }
-    return renderedObjects;
-  }
+  // _renderModels = (modelItems, startingBitMask) => {
+  //   var renderedObjects = [];
+  //   if (modelItems) {
+  //     var root = this;
+  //     let objBitMask = startingBitMask;
+  //     Object.keys(modelItems).forEach(function (currentKey) {
+  //       if (modelItems[currentKey] != null && modelItems[currentKey] != undefined) {
+  //         renderedObjects.push(
+  //           <ModelItemRender
+  //             menuItems={[root.props.selectedMenuItem]}
+  //             key={modelItems[currentKey].uuid}
+  //             modelIDProps={modelItems[currentKey]}
+  //             hitTestMethod={root._performARHitTest}
+  //             onLoadCallback={root._onLoadCallback}
+  //             onClickStateCallback={root._onModelsClickStateCallback}
+  //             bitMask={Math.pow(2, objBitMask)} />
+  //         );
+  //       }
+  //       objBitMask++;
+  //     });
+
+  //   }
+  //   return renderedObjects;
+  // }
+
+  _renderModels = () => (
+    <ModelItemRender
+      menuItem={this.props.selectedMenuItem}
+      key={this.props.selectedMenuItem.id}
+      hitTestMethod={this._performARHitTest}
+      onLoadCallback={this._onLoadCallback}
+      onClickStateCallback={this._onModelsClickStateCallback}
+      bitMask={Math.pow(2, 0)} // startingBitMask = 0;
+    />
+  )
 
   // Callback fired when the app receives AR Tracking state changes from ViroARScene.
   // If the tracking state is not NORMAL -> show the user AR Initialization animation 
@@ -164,11 +167,13 @@ var styles = StyleSheet.create({
 // });
 
 // -- REDUX STORE
-const selectProps = store => {
+const mapStateToProps = store => {
   return {
     modelItems: store.arObject.modelItems,
-    selectedMenuItem: store.menu.selectedMenuItem
+    selectedMenuItem: store.menu.selectedMenuItem,
     // postProcessEffects: store.arObject.postProcessEffects,
+
+    showMenuItem: store.arObject.showMenuItem
   };
 }
 
@@ -178,4 +183,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(selectProps, mapDispatchToProps)(ARInitialScene);
+export default connect(mapStateToProps, mapDispatchToProps)(ARInitialScene);
